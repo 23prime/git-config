@@ -1,0 +1,149 @@
+version: "3"
+
+tasks:
+  # General tasks
+  setup:
+    desc: "Setup tools"
+    cmds:
+      - mise install
+
+  versions:
+    desc: "Show tool versions"
+    cmds:
+      - shellcheck --version
+      - shfmt --version
+      - uv --version
+      - yamllint --version
+      - markdownlint --version
+      - actionlint --version
+
+  # subcommand tasks
+  sub:create:
+    desc: "Create symlink of subcommands"
+    cmds:
+      - chmod +x ./tools/sub-create.sh
+      - ./tools/sub-create.sh {{.CLI_ARGS}}
+
+  sub:ls:
+    desc: "List subcommands"
+    cmds:
+      - chmod +x ./tools/sub-ls.sh
+      - ./tools/sub-ls.sh {{.CLI_ARGS}}
+
+  sub:clean:
+    desc: "Remove broken links"
+    cmds:
+      - chmod +x ./tools/sub-clean.sh
+      - ./tools/sub-clean.sh {{.CLI_ARGS}}
+
+  sub:rm:
+    desc: "Remove symlink of subcommands"
+    cmds:
+      - chmod +x ./tools/sub-rm.sh
+      - ./tools/sub-rm.sh {{.CLI_ARGS}}
+
+  sub:check:
+    desc: "Check subcommands"
+    cmds:
+      - task: sh:check
+
+  # alias tasks
+  alias:create:
+    desc: "Create aliases"
+    cmds:
+      - chmod +x ./tools/alias-create.sh
+      - ./tools/alias-create.sh {{.CLI_ARGS}}
+
+  alias:ls:
+    desc: "List aliases"
+    cmds:
+      - chmod +x ./tools/alias-ls.sh
+      - ./tools/alias-ls.sh {{.CLI_ARGS}}
+
+  alias:rm:
+    desc: "Remove aliases"
+    cmds:
+      - chmod +x ./tools/alias-rm.sh
+      - ./tools/alias-rm.sh {{.CLI_ARGS}}
+
+  alias:check:
+    desc: "Check duplicate aliases in alias.conf ([alias] section)"
+    cmds:
+      - chmod +x ./tools/alias-dup-check.sh
+      - ./tools/alias-dup-check.sh
+
+  alias:fmt:
+    desc: "Format aliases"
+    cmds:
+      - chmod +x ./tools/alias-fmt.sh
+      - ./tools/alias-fmt.sh {{.CLI_ARGS}}
+
+  alias:check:dup:
+    desc: "Check duplicate aliases in alias.conf ([alias] section)"
+    cmds:
+      - chmod +x ./tools/alias-dup-check.sh
+      - ./tools/alias-dup-check.sh
+
+  check:
+    desc: "Check"
+    deps:
+      - sh:check
+      - yml:check
+      - md:check
+      - github:validate-workflow
+
+  # Shell tasks
+  sh:check:
+    desc: "Check shell scripts"
+    cmds:
+      - task: sh:fmt
+      - task: sh:lint
+
+  sh:lint:
+    desc: "Lint shell scripts"
+    cmds:
+      - shellcheck subcommands/*.sh
+
+  sh:fmt:
+    desc: "Format shell scripts"
+    cmds:
+      - shfmt -i 4 -w .
+
+  # YAML tasks
+  yml:check:
+    desc: "Check YAML"
+    cmds:
+      - task: yml:lint
+
+  yml:lint:
+    desc: "Lint YAML"
+    cmds:
+      - yamllint .
+
+  # Markdown linting tasks
+  md:check:
+    desc: "Check Markdown"
+    cmds:
+      - task: md:fix
+      - task: md:lint
+
+  md:fix:
+    desc: "Auto fix Markdown"
+    cmds:
+      - task: md:lint-fix
+
+  md:lint:
+    desc: "Run markdownlint on project markdown files"
+    cmds:
+      - markdownlint *.md
+
+  md:lint-fix:
+    desc: "Fix markdownlint issues automatically"
+    cmds:
+      - markdownlint *.md --fix
+
+  # GitHub Actions tasks
+  github:validate-workflow:
+    desc: "Validate GitHub Actions workflow"
+    cmds:
+      - actionlint .github/workflows/*.yml

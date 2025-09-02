@@ -1,0 +1,14 @@
+[tools]
+# Shell
+shellcheck = "0.10"
+shfmt = "3"
+
+# YAML
+uv = "latest"       # for install yamllint
+yamllint = "latest"
+
+# Markdown
+"npm:markdownlint-cli" = "latest"
+
+# GitHub Actions
+actionlint = "latest"

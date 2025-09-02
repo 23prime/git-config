@@ -1,0 +1,24 @@
+{
+  // Shell
+  "[shellscript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "mkhl.shfmt",
+  },
+
+  // YAML
+  "yaml.format.enable": true,
+  "[yaml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+
+  // Format alias.conf
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "alias.conf",
+        "cmd": "task alias:fmt",
+      }
+    ]
+  },
+}
