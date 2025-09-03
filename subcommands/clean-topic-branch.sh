@@ -2,7 +2,7 @@
 
 set -eu
 
-current_branch=$(git-current-branch)
+current_branch=$(git current-branch)
 
 if [[ "$current_branch" == "main" ]]; then
     echo "Error: current branch is 'main'."
