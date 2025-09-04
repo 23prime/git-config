@@ -29,4 +29,7 @@ done <alias.conf
 
 if [[ $dup -eq 0 ]]; then
     echo "No duplicates found"
+else
+    echo "[ERROR] Duplicates found" >&2
+    exit 1
 fi
