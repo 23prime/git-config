@@ -17,6 +17,15 @@ tasks:
       - markdownlint --version
       - actionlint --version
 
+  check:
+    desc: "Check"
+    deps:
+      - sh:check
+      - yml:check
+      - md:check
+      - github:validate-workflow
+      - alias:check
+
   # subcommand tasks
   sub:create:
     desc: "Create symlink of subcommands"
@@ -76,20 +85,6 @@ tasks:
     cmds:
       - chmod +x ./tools/alias-fmt.sh
       - ./tools/alias-fmt.sh {{.CLI_ARGS}}
-
-  alias:check:dup:
-    desc: "Check duplicate aliases in alias.conf ([alias] section)"
-    cmds:
-      - chmod +x ./tools/alias-dup-check.sh
-      - ./tools/alias-dup-check.sh
-
-  check:
-    desc: "Check"
-    deps:
-      - sh:check
-      - yml:check
-      - md:check
-      - github:validate-workflow
 
   # Shell tasks
   sh:check:
