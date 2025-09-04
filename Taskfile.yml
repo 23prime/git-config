@@ -57,8 +57,7 @@ tasks:
   alias:ls:
     desc: "List aliases"
     cmds:
-      - chmod +x ./tools/alias-ls.sh
-      - ./tools/alias-ls.sh {{.CLI_ARGS}}
+      - git alias-ls
 
   alias:rm:
     desc: "Remove aliases"
