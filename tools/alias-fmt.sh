@@ -7,7 +7,12 @@ awk '
     print; in_alias=1; next
 }
 in_alias && /^[[:space:]]+[a-zA-Z0-9_-]+[[:space:]]*=/ {
-    print $0 | "sort"; next
+    # Set indent to 2 spaces
+    line = $0
+    sub(/^[[:space:]]+/, "  ", line)
+    # Ensure one space before and after '='
+    sub(/[[:space:]]*=[[:space:]]*/, " = ", line)
+    print line | "sort"; next
 }
 in_alias && $0 !~ /^[[:space:]]+[a-zA-Z0-9_-]+[[:space:]]*=/ {
     close("sort"); in_alias=0
