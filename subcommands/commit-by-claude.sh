@@ -18,7 +18,7 @@ fi
 # Check required commands
 echo "Check required external commands..."
 
-for cmd in git claude jq; do
+for cmd in claude jq; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         printf "[ERROR] Required command '%s' not found. Please install it.\n" "$cmd" >&2
         exit 1

@@ -3,7 +3,7 @@
 set -eu
 
 # Check required commands
-for cmd in git fzf awk; do
+for cmd in fzf awk; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         printf "[ERROR] Required command '%s' not found. Please install it.\n" "$cmd" >&2
         exit 1
