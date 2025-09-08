@@ -6,6 +6,8 @@ tasks:
     desc: "Setup tools"
     cmds:
       - mise install
+    aliases:
+      - s
 
   versions:
     desc: "Show tool versions"
@@ -25,6 +27,8 @@ tasks:
       - md:check
       - github:validate-workflow
       - alias:check
+    aliases:
+      - c
 
   # subcommand tasks
   sub:create:
