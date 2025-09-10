@@ -84,11 +84,11 @@ ROOT=${ROOT:-.}
 # Validate depth if specified (must be non-negative integer)
 if [ -n "$DEPTH" ]; then
     case "$DEPTH" in
-        ''|*[!0-9]*)
-            printf "Error: depth must be a non-negative integer: %s\n" "$DEPTH" >&2
-            exit 2
-            ;;
-        *) ;;
+    '' | *[!0-9]*)
+        printf "Error: depth must be a non-negative integer: %s\n" "$DEPTH" >&2
+        exit 2
+        ;;
+    *) ;;
     esac
 fi
 
