@@ -6,27 +6,27 @@ set -eu
 remote_flag=false
 while getopts "r-:" opt; do
     case $opt in
-        r)
+    r)
+        remote_flag=true
+        ;;
+    -)
+        case "${OPTARG}" in
+        remote)
             remote_flag=true
             ;;
-        -)
-            case "${OPTARG}" in
-                remote)
-                    remote_flag=true
-                    ;;
-                *)
-                    echo "Unknown option --${OPTARG}" >&2
-                    exit 1
-                    ;;
-            esac
-            ;;
         *)
-            echo "Usage: $0 [-r|--remote] <repo> [owner]" >&2
+            echo "Unknown option --${OPTARG}" >&2
             exit 1
             ;;
+        esac
+        ;;
+    *)
+        echo "Usage: $0 [-r|--remote] <repo> [owner]" >&2
+        exit 1
+        ;;
     esac
 done
-shift $((OPTIND-1))
+shift $((OPTIND - 1))
 
 # Check that $1 (repo) is provided
 if [ -z "${1:-}" ]; then
