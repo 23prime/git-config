@@ -30,7 +30,7 @@ if [ -n "$latest_tag" ]; then
 fi
 
 echo "Creating and pushing tag v$VERSION"
-read -p "Are you sure you want to create and push this tag? (y/n) " confirm
+read -r -p "Are you sure you want to create and push this tag? (y/n) " confirm
 
 if [ "$confirm" != "y" ]; then
     echo "Tagging aborted"
