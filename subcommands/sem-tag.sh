@@ -5,6 +5,7 @@ set -e
 # Parse arguments
 VERSION=""
 INCREMENT="patch"
+PUSH=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -15,6 +16,10 @@ while [[ $# -gt 0 ]]; do
     --increment)
         INCREMENT="$2"
         shift 2
+        ;;
+    --push)
+        PUSH=true
+        shift
         ;;
     *)
         VERSION="$1"
@@ -89,8 +94,8 @@ else
     fi
 fi
 
-echo "Creating and pushing tag v$VERSION"
-read -r -p "Are you sure you want to create and push this tag? (y/n) " confirm
+echo "Creating tag v$VERSION"
+read -r -p "Are you sure you want to create this tag? (y/n) " confirm
 
 if [ "$confirm" != "y" ]; then
     echo "Tagging aborted"
@@ -98,4 +103,10 @@ if [ "$confirm" != "y" ]; then
 fi
 
 git tag -a -m "Release v$VERSION" "v$VERSION"
-git push origin "v$VERSION"
+
+if [ "$PUSH" = true ]; then
+    git push origin "v$VERSION"
+    echo "Tag v$VERSION created and pushed"
+else
+    echo "Tag v$VERSION created locally (use 'git push origin v$VERSION' to push later)"
+fi
