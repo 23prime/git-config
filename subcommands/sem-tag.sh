@@ -22,8 +22,10 @@ echo "Latest tag: ${latest_tag:-None}"
 
 if [ -n "$latest_tag" ]; then
     latest_version=${latest_tag#v}
+    earlier_version="$(printf '%s\n%s\n' "$latest_version" "$VERSION" | sort -V | head -n 1)"
 
-    if [ "$(printf '%s\n%s\n' "$latest_version" "$VERSION" | sort -V | head -n 1)" != "$latest_version" ]; then
+    # If VERSION <= latest_version, abort
+    if [ "$earlier_version" = "$VERSION" ]; then
         echo "Error: Specified version $VERSION is not later than the latest tag $latest_tag" >&2
         exit 1
     fi
