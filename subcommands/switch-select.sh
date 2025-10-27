@@ -26,8 +26,18 @@ if [ -z "$target_branch" ]; then
 fi
 
 # Switch to the selected branch exist at local
+# Local branch exists
 if git show-ref --verify --quiet "refs/heads/$target_branch"; then
     git switch "$target_branch"
+    exit 0
+fi
+
+# Local branch doesn't exist
+# Check if target_branch is a remote branch (contains '/')
+if [[ "$target_branch" == */* ]]; then
+    # Extract local branch name by removing remote prefix (everything before first '/')
+    local_branch_name="${target_branch#*/}"
+    git switch -c "$local_branch_name" --track "$target_branch"
 else
     git switch -c "$target_branch" --track "$target_branch"
 fi
