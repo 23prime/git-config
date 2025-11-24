@@ -2,6 +2,26 @@
 
 set -e
 
+print_usage() {
+    cat <<'EOF'
+Usage: git sem-tag [VERSION] [options]
+
+Create a semantic version tag with format vMAJOR.MINOR.PATCH.
+If VERSION is not provided, auto-increments from the latest tag.
+
+Options:
+  --increment=TYPE   Increment type for auto-versioning: patch, minor, major (default: patch)
+  --push             Push the created tag to remote origin
+  -h, --help         Show this help and exit
+
+Examples:
+  git sem-tag                    # auto-increment patch: v1.2.3 -> v1.2.4
+  git sem-tag --increment=minor  # auto-increment minor: v1.2.3 -> v1.3.0
+  git sem-tag 2.0.0              # create tag v2.0.0
+  git sem-tag 1.5.0 --push       # create and push tag v1.5.0
+EOF
+}
+
 # Parse arguments
 VERSION=""
 INCREMENT="patch"
@@ -9,6 +29,10 @@ PUSH=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+    -h | --help)
+        print_usage
+        exit 0
+        ;;
     --increment=*)
         INCREMENT="${1#*=}"
         shift
