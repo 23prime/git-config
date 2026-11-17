@@ -12,3 +12,113 @@ yamllint = "latest"
 
 # GitHub Actions
 actionlint = "latest"
+
+
+# ================================================================
+# Tasks
+# See: https://mise.jdx.dev/tasks/toml-tasks.html
+# ================================================================
+
+# Global
+[tasks.setup]
+description = "Setup tools"
+run = ["mise trust -yq", "mise install"]
+alias = "s"
+
+[tasks.versions]
+description = "Show tool versions"
+run = [
+  "shellcheck --version",
+  "shfmt --version",
+  "uv --version",
+  "yamllint --version",
+  "markdownlint --version",
+  "actionlint --version",
+]
+
+[tasks.check]
+description = "Check"
+depends = ["sh-check", "yml-check", "md-check", "gh-check", "alias-check"]
+alias = "c"
+
+# Subcommands (extra args are passed to the script: `mise run sub-create ~/bin`)
+[tasks.sub-create]
+description = "Create symlink of subcommands"
+run = ["chmod +x ./tools/sub-create.sh", "./tools/sub-create.sh"]
+
+[tasks.sub-ls]
+description = "List subcommands"
+run = ["chmod +x ./tools/sub-ls.sh", "./tools/sub-ls.sh"]
+
+[tasks.sub-clean]
+description = "Remove broken links"
+run = ["chmod +x ./tools/sub-clean.sh", "./tools/sub-clean.sh"]
+
+[tasks.sub-rm]
+description = "Remove symlink of subcommands"
+run = ["chmod +x ./tools/sub-rm.sh", "./tools/sub-rm.sh"]
+
+[tasks.sub-check]
+description = "Check subcommands"
+run = [{ task = "sh-check" }]
+
+# Aliases
+[tasks.alias-create]
+description = "Create aliases"
+run = ["chmod +x ./tools/alias-create.sh", "./tools/alias-create.sh"]
+
+[tasks.alias-ls]
+description = "List aliases"
+run = "git alias-ls"
+
+[tasks.alias-rm]
+description = "Remove aliases"
+run = ["chmod +x ./tools/alias-rm.sh", "./tools/alias-rm.sh"]
+
+[tasks.alias-check]
+description = "Check duplicate aliases in alias.conf ([alias] section)"
+run = ["chmod +x ./tools/alias-dup-check.sh", "./tools/alias-dup-check.sh"]
+
+[tasks.alias-fmt]
+description = "Format aliases"
+run = ["chmod +x ./tools/alias-fmt.sh", "./tools/alias-fmt.sh"]
+
+# Shell
+[tasks.sh-check]
+description = "Check shell scripts"
+run = [{ task = "sh-fmt" }, { task = "sh-lint" }]
+
+[tasks.sh-lint]
+description = "Lint shell scripts"
+run = "shellcheck subcommands/*.sh"
+
+[tasks.sh-fmt]
+description = "Format shell scripts"
+run = "shfmt -i 4 -w ."
+
+# YAML
+[tasks.yml-check]
+description = "Check YAML"
+run = [{ task = "yml-lint" }]
+
+[tasks.yml-lint]
+description = "Lint YAML"
+run = "yamllint ."
+
+# Markdown
+[tasks.md-check]
+description = "Check Markdown"
+run = [{ task = "md-fix" }, { task = "md-lint" }]
+
+[tasks.md-fix]
+description = "Auto fix Markdown"
+run = "markdownlint *.md --fix"
+
+[tasks.md-lint]
+description = "Run markdownlint on project markdown files"
+run = "markdownlint *.md"
+
+# GitHub Actions
+[tasks.gh-check]
+description = "Validate GitHub Actions workflow"
+run = "actionlint .github/workflows/*.yml"

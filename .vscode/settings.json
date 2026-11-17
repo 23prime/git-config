@@ -17,7 +17,7 @@
     "commands": [
       {
         "match": "alias.conf",
-        "cmd": "task alias:fmt",
+        "cmd": "mise run alias-fmt",
       }
     ]
   },

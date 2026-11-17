@@ -72,7 +72,7 @@ fi
 
 # Ensure `git repo-ls` is available
 if ! git repo-ls -h >/dev/null 2>&1; then
-    echo "[ERROR] 'git repo-ls' not found. Create subcommand links (e.g., 'task sub:create')." >&2
+    echo "[ERROR] 'git repo-ls' not found. Create subcommand links (e.g., 'mise run sub-create')." >&2
     exit 1
 fi
 
