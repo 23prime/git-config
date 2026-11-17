@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install mise and setup
-        uses: jdx/mise-action@v3
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
           install: true
           cache: true
@@ -28,7 +28,7 @@ jobs:
         run: mise run sh-fmt
 
       - name: Commit and Push
-        uses: 23prime/simple-commit-and-push@v1
+        uses: 23prime/simple-commit-and-push@15fb653b9591afde3bffb82a906a9af2aede1616 # v1.0.0
         with:
           commit-message: "Auto fix code by `mise run sh-fmt`"
           github-token: ${{ secrets.GITHUB_TOKEN }}
